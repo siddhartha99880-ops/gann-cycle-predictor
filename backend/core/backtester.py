@@ -37,7 +37,9 @@ def run_backtest(symbol, start_date, end_date, timeframe="1d"):
     entry_eq_idx = 0    # Equity list index at entry (for mark-to-market)
 
     for i in range(1, len(df)):
-        row_df = df.iloc[:i+1].copy()
+        # Use a fixed lookback window instead of growing slice (massive speedup)
+        lookback = min(i + 1, 50)
+        row_df = df.iloc[i + 1 - lookback:i + 1].copy()
         if "Date" in row_df.columns:
             row_df.set_index("Date", inplace=True)
         elif "Datetime" in row_df.columns:
