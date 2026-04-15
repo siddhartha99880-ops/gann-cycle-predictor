@@ -33,7 +33,8 @@ def run_backtest(symbol, start_date, end_date, timeframe="1d"):
     position = None  # None, "LONG", or "SHORT"
     entry_price = 0
     entry_date = None
-    entry_idx = 0
+    entry_idx = 0       # DataFrame row index (for bars_held calc)
+    entry_eq_idx = 0    # Equity list index at entry (for mark-to-market)
 
     for i in range(1, len(df)):
         row_df = df.iloc[:i+1].copy()
@@ -58,11 +59,13 @@ def run_backtest(symbol, start_date, end_date, timeframe="1d"):
                 entry_price = close
                 entry_date = df.iloc[i].get("Date", df.index[i] if isinstance(df.index[i], str) else i)
                 entry_idx = i
+                entry_eq_idx = len(equity) - 1
             elif phase == 5:  # Markdown Begin → go SHORT
                 position = "SHORT"
                 entry_price = close
                 entry_date = df.iloc[i].get("Date", df.index[i] if isinstance(df.index[i], str) else i)
                 entry_idx = i
+                entry_eq_idx = len(equity) - 1
 
         # Exit logic
         elif position == "LONG" and phase in [4, 5, 6]:
@@ -92,13 +95,13 @@ def run_backtest(symbol, start_date, end_date, timeframe="1d"):
             equity.append(equity[-1] * (1 + pnl_pct / 100))
             position = None
         else:
-            # Mark-to-market equity
+            # Mark-to-market equity (use entry_eq_idx instead of entry_idx)
             if position == "LONG":
                 mtm = (close - entry_price) / entry_price
-                equity.append(equity[entry_idx] * (1 + mtm))
+                equity.append(equity[entry_eq_idx] * (1 + mtm))
             elif position == "SHORT":
                 mtm = (entry_price - close) / entry_price
-                equity.append(equity[entry_idx] * (1 + mtm))
+                equity.append(equity[entry_eq_idx] * (1 + mtm))
             else:
                 equity.append(equity[-1])
 

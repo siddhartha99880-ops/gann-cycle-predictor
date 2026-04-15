@@ -249,16 +249,21 @@ class BacktestRequest(BaseModel):
 @app.post("/api/backtest")
 def run_backtest_endpoint(req: BacktestRequest):
     """Run Gann Cycle backtest on historical data."""
-    result = run_backtest(req.symbol, req.start_date, req.end_date)
-
-    # Save to DB
     try:
-        from core.database import save_backtest_result
-        save_backtest_result(result)
-    except Exception:
-        pass
+        result = run_backtest(req.symbol, req.start_date, req.end_date)
 
-    return result
+        # Save to DB
+        try:
+            from core.database import save_backtest_result
+            save_backtest_result(result)
+        except Exception:
+            pass
+
+        return _sanitize(result)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 
 @app.get("/api/heatmap")
