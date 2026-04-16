@@ -8,7 +8,7 @@
 // ════════════════════════════════════════════
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8000'
-    : 'https://gann-cycle-predictor-production.up.railway.app';
+    : 'https://gann-backend-api.up.railway.app';
 
 const PHASE_COLORS = {
     '1': '#2ecc71', '2': '#27ae60', '3': '#00d4aa',
