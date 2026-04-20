@@ -124,51 +124,37 @@ PHASES = {
     },
 }
 
-# Phase scoring weights — each condition contributes to phase scores
-# Format: (condition_key, phase_number, weight)
+# True Gann Mathematical Conditions
 PHASE_SCORING_RULES = [
-    # RSI conditions
-    ("rsi_30_45", 1, 3),
-    ("rsi_crossing_50_up", 2, 3),
-    ("rsi_60_75", 3, 3),
-    ("rsi_divergence_bearish", 4, 3),
-    ("rsi_below_50", 5, 3),
-    ("rsi_below_30", 6, 3),
+    # Accumulation (Consolidation near Gann Support)
+    ("near_gann_support", 1, 4),
+    ("below_gann_1x1", 1, 2),
+    ("price_sideways", 1, 4),
 
-    # Price vs EMA conditions
-    ("price_above_ema20", 2, 2),
-    ("price_above_ema20", 3, 2),
-    ("price_below_ema20", 1, 1),
-    ("price_below_ema20", 5, 2),
-    ("price_below_ema20", 6, 2),
-    ("price_above_ema50", 3, 2),
-    ("price_above_ema50", 4, 1),
-    ("price_far_below_emas", 6, 2),
+    # Markup Begin (Breaking above 1x2 or 1x1)
+    ("above_gann_1x2", 2, 4),
+    ("breaking_sq9_res", 2, 3),
+    ("bullish_time_cycle", 2, 3),
 
-    # Price action
-    ("sideways_price", 1, 2),
-    ("price_near_highs", 3, 1),
-    ("price_near_highs", 4, 2),
+    # Markup Acceleration (Strongly above 1x1)
+    ("above_gann_1x1", 3, 5),
+    ("cleared_sq9_res", 3, 4),
+    ("strong_momentum", 3, 3),
 
-    # Volume conditions
-    ("low_volume", 1, 2),
-    ("low_volume", 4, 2),
-    ("high_volume", 2, 2),
-    ("high_volume", 3, 2),
-    ("high_volume", 5, 2),
-    ("high_volume", 6, 3),
+    # Distribution (Stalling near major Sq9 Resistance)
+    ("near_gann_resistance", 4, 4),
+    ("bearish_time_cycle", 4, 3),
+    ("losing_momentum", 4, 3),
 
-    # MACD conditions
-    ("macd_bullish_cross", 2, 2),
-    ("macd_bullish_cross", 3, 1),
-    ("macd_bearish_cross", 4, 2),
-    ("macd_bearish_cross", 5, 2),
+    # Markdown Begin (Breaking below 1x1)
+    ("below_gann_1x1", 5, 4),
+    ("breaking_sq9_sup", 5, 3),
+    ("bearish_time_cycle_active", 5, 3),
 
-    # EMA alignment
-    ("ema9_above_ema20", 2, 1),
-    ("ema9_above_ema20", 3, 1),
-    ("ema9_below_ema20", 5, 1),
-    ("ema9_below_ema20", 6, 1),
+    # Capitulation (Breaking below 1x2 & dropping hard)
+    ("below_gann_1x2_bear", 6, 5),
+    ("cleared_sq9_sup", 6, 3),
+    ("extreme_down_momentum", 6, 3),
 ]
 
 # Maximum possible score per phase (for confidence calculation)
