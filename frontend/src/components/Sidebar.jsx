@@ -13,7 +13,9 @@ export default function Sidebar({ tabs, activeTab, onTabChange, symbols, selecte
         <div className="brand-icon">G</div>
         <div>
           <div className="brand-text">Gann Cycle</div>
-          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Market Intelligence</div>
+          <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: 500, letterSpacing: '0.04em' }}>
+            MARKET INTELLIGENCE
+          </div>
         </div>
       </div>
 
@@ -24,14 +26,24 @@ export default function Sidebar({ tabs, activeTab, onTabChange, symbols, selecte
             className={`nav-item ${activeTab === tab.id ? 'active' : ''}`}
             onClick={() => onTabChange(tab.id)}
           >
-            <span style={{ fontSize: '1rem', opacity: 0.8 }}>{tab.icon}</span>
+            <span style={{ fontSize: '1rem', opacity: 0.7, width: 20, textAlign: 'center' }}>{tab.icon}</span>
             <span>{tab.label}</span>
+            {tab.id === 'alerts' && (
+              <span className="live-dot" style={{ marginLeft: 'auto' }} />
+            )}
           </div>
         ))}
       </nav>
 
-      <div className="sidebar-controls" style={{ padding: '16px', borderTop: '1px solid var(--border-light)', marginTop: 'auto' }}>
-        <div className="control-group" style={{ marginBottom: '12px' }}>
+      <div className="sidebar-controls" style={{
+        padding: '20px 16px',
+        borderTop: '1px solid var(--border-default)',
+        marginTop: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '14px'
+      }}>
+        <div className="control-group">
           <label className="control-label">Symbol</label>
           <select className="control-select" value={selectedSymbol} onChange={e => onSymbolChange(e.target.value)}>
             {symbols.map(s => <option key={s} value={s}>{s}</option>)}
@@ -42,6 +54,21 @@ export default function Sidebar({ tabs, activeTab, onTabChange, symbols, selecte
           <select className="control-select" value={selectedTF} onChange={e => onTFChange(e.target.value)}>
             {timeframes.map(tf => <option key={tf.value} value={tf.value}>{tf.label}</option>)}
           </select>
+        </div>
+
+        {/* Version badge */}
+        <div style={{
+          marginTop: 8,
+          padding: '10px 14px',
+          borderRadius: 'var(--radius-sm)',
+          background: 'rgba(99, 131, 255, 0.04)',
+          border: '1px solid var(--border-subtle)',
+          fontSize: '0.68rem',
+          color: 'var(--text-muted)',
+          textAlign: 'center',
+          letterSpacing: '0.04em',
+        }}>
+          Gann Engine v2.0 · Square of 9
         </div>
       </div>
     </aside>
